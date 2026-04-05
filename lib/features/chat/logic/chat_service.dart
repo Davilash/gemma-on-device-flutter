@@ -100,18 +100,22 @@ class ChatService {
     ModelType modelType = ModelType.general,
     bool supportImage = false,
   }) async {
-    // Setting maxTokens to 4096 (Gemma 4 stable context window) to prevent DYNAMIC_UPDATE_SLICE overflows
-    _model = await FlutterGemma.getActiveModel(
-      supportImage: supportImage,
-      maxTokens: 4096,
-    );
-    _chat = await _model!.createChat(
-      modelType: modelType,
-      supportImage: supportImage,
-      tools: _tools, 
-      supportsFunctionCalls: true,
-    );
-    _isInitialized = true;
+    try {
+      _model = await FlutterGemma.getActiveModel(
+        supportImage: supportImage,
+        maxTokens: 4096,
+      );
+      _chat = await _model!.createChat(
+        modelType: modelType,
+        supportImage: supportImage,
+        tools: _tools, 
+        supportsFunctionCalls: true,
+      );
+      _isInitialized = true;
+    } catch (e) {
+      _isInitialized = false;
+      rethrow;
+    }
   }
 
   Stream<String> sendMessage(String text, {Uint8List? imageBytes}) async* {
@@ -182,7 +186,9 @@ class ChatService {
       'gemma-2b-it',
       'gemma-7b-it',
       'gemma-4-e2b-it',
+      'gemma-4-E2B-it',
       'gemma-3n-e2b-it',
+      'gemmaIt',
     ];
     
     List<Map<String, dynamic>> installed = [];

@@ -4,52 +4,57 @@ A powerful, private, and fully on-device AI assistant built with Flutter and **G
 
 ## 🚀 Features
 
-- **Gemma 4 Multimodal**: Analyze images and text locally using the latest Gemma 4 E2B model.
+- **Gemma 4 & Multi-Model Support**: Analyze images and text locally using Gemma 4 E2B, with built-in auto-detection for Gemma 2b, 7b, and 3n versions.
 - **Agentic Capabilities**: The assistant can automatically invoke tools to help you:
   - 📞 **Make Calls**: Search contacts and open the dialler.
-  - 🌐 **Web Search**: Get up-to-date information via DuckDuckGo.
+  - 🌐 **Web Search**: Get private, up-to-date information via DuckDuckGo.
   - ⏰ **Set Alarms**: Schedule reminders and alarms on Android.
   - 📱 **Open Apps**: Launch any installed application by name.
-- **Interactive Messaging**: Beautiful dark mode UI with markdown support, image previews, and smooth animations.
-- **Voice Features**: Integrated **Speech-to-Text** for hands-free input and **Text-to-Speech** for audio responses.
+- **Advanced History Management**: 
+  - **Granular Deletion**: Delete individual conversations with a safety confirmation dialog.
+  - **Auto-Sync**: History is automatically saved and synced to the sidebar.
+- **Professional UI/UX**: 
+  - **Clean Sidebar**: Distraction-free chat with settings and history managed in a slide-out drawer.
+  - **Dark Mode**: Optimized for OLED screens with modern glassmorphism elements.
+  - **Voice Integration**: Hands-free **Speech-to-Text** (STT) and rhythmic **Text-to-Speech** (TTS).
 - **Full Privacy**: No data leaves your device. All inference and tool execution happen locally.
 
 ## 🏗️ Architecture
 
-This project follows a **Feature-First Architecture** with a clear separation of concerns (Clean Architecture principles):
+This project follows a **Feature-First Architecture** inspired by Clean Architecture:
 
 - **Data Layer**: Handles persistence (`HistoryService`) and external APIs (`WebSearchService`).
 - **Domain Layer**: Contains plain models (`ChatMessage`, `ChatHistory`).
-- **Logic Layer**: Manages the core business logic (`ChatService`) and tool execution (`ToolHandler`).
-- **Presentation Layer**: UI screens and widgets (`ChatScreen`).
+- **Logic Layer**: Manages core business logic (`ChatService`) and tool execution (`ToolHandler`).
+- **Presentation Layer**: Modular UI components and screens (`ChatScreen`).
 
 ## 🛡️ Security Best Practices
 
-To ensure project security before pushing to public repositories:
+Before pushing to public repositories:
 
-1. **Secret Management**: Do not hardcode API keys or tokens (e.g., Hugging Face tokens). 
-2. **Environment Variables**: Use `--dart-define` or `.env` files. This app is configured to use:
+1. **Secret Management**: Do not hardcode API keys or tokens. 
+2. **Environment Variables**: Use `--dart-define` for secure builds:
    ```bash
    flutter run --dart-define=HF_TOKEN=your_token_here
    ```
-3. **Data Privacy**: All chat history is stored locally using `SharedPreferences`. For production apps with high-security needs, consider `flutter_secure_storage`.
+3. **Git Hygiene**: Sensitive files like `.env`, `*.keystore`, and `local.properties` are excluded via `.gitignore`.
 
 ## 📦 Getting Started
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/flutter_gemma.git
+   git clone https://github.com/Davilash/gemma-on-device-flutter.git
    ```
 2. **Install dependencies**:
    ```bash
    flutter pub get
    ```
 3. **Download the Model**:
-   Upon first launch, the app will prompt you to download the **Gemma 4 E2B** model (~390MB) from Hugging Face.
+   Upon first launch, the app scans for existing models. If none are found, you'll be prompted to download the **Gemma 4** model (~390MB).
 
 ## 🏁 How to Build
 
-If you encounter issues with the standard `flutter build apk` command due to custom build outputs, you can build directly using Gradle:
+If `flutter build apk` fails to find the output on your system, build directly via Gradle:
 
 ```bash
 cd android
@@ -57,7 +62,9 @@ cd android
 ```
 
 The APK will be generated at:
-`build/app/outputs/apk/debug/app-debug.apk`
+`android/app/build/outputs/apk/debug/app-debug.apk`
+
+*Note: For easy access, look for `flutter_gemma_debug.apk` in the project root after running our custom copy script.*
 
 ---
-*Built with ❤️ using Google Gemma 4.*
+*Built with ❤️*

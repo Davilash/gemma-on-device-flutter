@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gemma/core/api/flutter_gemma.dart';
 import 'features/chat/presentation/screens/chat_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Read token from --dart-define=HF_TOKEN=your_token
+  const String hfToken = String.fromEnvironment('HF_TOKEN');
+  
+  await FlutterGemma.initialize(
+    huggingFaceToken: hfToken.isEmpty ? null : hfToken,
+  );
+  
   runApp(const GemmaChatApp());
 }
 
